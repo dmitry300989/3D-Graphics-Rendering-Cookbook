@@ -230,10 +230,10 @@ void MultiRenderer::updateBuffers(size_t imageIndex)
 
 void MultiRenderer::updateIndirectBuffers(size_t currentImage, bool* visibility)
 {
-	VkDrawIndirectCommand* data = nullptr;
-	vkMapMemory(ctx_.vkDev.device, indirect_[currentImage].memory, 0, sizeof(VkDrawIndirectCommand), 0, (void**)&data);
-
 	const uint32_t size = (uint32_t)sceneData_.shapes_.size();
+
+	VkDrawIndirectCommand* data = nullptr;
+	VK_CHECK(vkMapMemory(ctx_.vkDev.device, indirect_[currentImage].memory, 0, sizeof(VkDrawIndirectCommand) * size, 0, (void**)&data));
 
 	for (uint32_t i = 0; i != size; i++)
 	{
